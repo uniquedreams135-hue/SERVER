@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Movie Library Single Page</title>
+<title>Credit Steaming Media</title>
 
 <style>
 body{
@@ -47,8 +47,7 @@ header input{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
     gap:20px;
-    padding:20px;
-}
+    padding:20px;}
 .movie{
     position:relative;
     background:#1e1e1e;
@@ -97,8 +96,7 @@ footer{
     width:90%;
     max-width:600px;
     margin:15px 0;
-    border-radius:8px;
-}
+    border-radius:8px;}
 #descPage button{
     padding:10px 18px;
     margin:8px;
@@ -119,14 +117,14 @@ footer{
 <!-- MAIN PAGE -->
 <div id="mainPage">
 <header>
-    <h1>Movie Library</h1>
-    <input type="text" id="search" placeholder="Search movie...">
+    <h1>Credit Steaming Media</h1>
+    <input type="text" id="search" placeholder="Search content...">
 </header>
 
 <div class="category-bar" id="categoryBar"></div>
 <div class="container" id="movieContainer"></div>
 
-<footer>aks admin</footer>
+<footer>All types of content – movies, web series, anime, leaks, etc.</footer>
 </div>
 
 <!-- DESCRIPTION PAGE -->
@@ -134,38 +132,21 @@ footer{
     <img id="descImg">
     <h1 id="descTitle"></h1>
     <p id="descText"></p>
-    <video id="descVideo" controls autoplay loop muted></video><br>
+    <video id="descVideo" controls autoplay muted></video><br>
     <button id="fullscreenBtn">Fullscreen</button>
     <button id="downloadBtn">Download</button>
     <button id="backBtn">Back</button>
 </div>
 
 <script>
-// ================= MOVIE DATA =================
+// ================= CONTENT DATA =================
 const movies = [
     {
         title: "Action Movie 1",
-        image: "https://drive.google.com/thumbnail?id=1F4rCfzGakgdBbiAobt2hL5b939kARkDS&sz=w1000",
-        trailer: "videos/action1.mp4",
-        download: "videos/action1.mp4",
-        category: "Action",
-        description: "Exciting action movie with stunts and adventure."
-    },
-    {
-        title: "Comedy Movie 1",
-        image: "https://via.placeholder.com/300x450?text=Comedy",
-        trailer: "videos/comedy1.mp4",
-        download: "videos/comedy1.mp4",
-        category: "Comedy",
-        description: "Hilarious comedy to make you laugh."
-    },
-    {
-        title: "Horror Movie 1",
-        image: "https://via.placeholder.com/300x450?text=Horror",
-        trailer: "videos/horror1.mp4",
-        download: "videos/horror1.mp4",
-        category: "Horror",
-        description: "Scary horror movie that keeps you on edge."
+        image: "https://drive.google.com/thumbnail?id=16lxU26CD8Qx5fvwgR3qVA_HZXv42rWor&sz=w1000",
+        trailer: "https://drive.google.com/uc?export=download&id=16lxU26CD8Qx5fvwgR3qVA_HZXv42rWor",
+        download: "https://drive.google.com/uc?export=download&id=16lxU26CD8Qx5fvwgR3qVA_HZXv42rWor",        category: "Action",
+        description: "Exclusive action-packed content including movies, web series, and more."
     }
 ];
 
@@ -176,64 +157,85 @@ const container = document.getElementById("movieContainer");
 const search = document.getElementById("search");
 const categoryBar = document.getElementById("categoryBar");
 
-let currentCategory = "All";
+let currentCategory = "Action";
+const categories = ["Action"];
 
-// Category buttons
-const categories = ["All", ...new Set(movies.map(m => m.category))];
-categories.forEach(cat=>{
+categories.forEach(cat => {
     const btn = document.createElement("button");
     btn.innerText = cat;
-    if(cat==="All") btn.classList.add("active");
-    btn.onclick = ()=>{
-        currentCategory = cat;
-        document.querySelectorAll(".category-bar button")
-            .forEach(b=>b.classList.remove("active"));
-        btn.classList.add("active");
+    btn.classList.add("active");
+
+    btn.onclick = () => {
+        const pass = prompt("Enter password for Action content:");
+        if (pass !== "999897") {
+            alert("Incorrect password! Please contact the website owner for access.");
+            return;
+        }
         filterMovies();
     };
+
     categoryBar.appendChild(btn);
 });
 
 function filterMovies(){
     const val = search.value.toLowerCase();
-    let list = movies.filter(m =>
-        (currentCategory==="All" || m.category===currentCategory) &&
+    const list = movies.filter(m =>
+        m.category === currentCategory &&
         m.title.toLowerCase().includes(val)
     );
     showMovies(list);
 }
 
 function showMovies(list){
-    container.innerHTML="";
-    list.forEach(movie=>{
+    container.innerHTML = "";
+    if (list.length === 0) {
+        container.innerHTML = "<p>No content found.</p>";
+        return;
+    }
+    list.forEach(movie => {
         const div = document.createElement("div");
-        div.className="movie";
-        div.innerHTML=`<img src="${movie.image}"><h3>${movie.title}</h3>`;
-        div.onclick = ()=> showDescription(movie);
+        div.className = "movie";        div.innerHTML = `<img src="${movie.image}" onerror="this.src='https://via.placeholder.com/180x260?text=Video'"><h3>${movie.title}</h3>`;
+        div.onclick = () => showDescription(movie);
         container.appendChild(div);
     });
 }
 
 function showDescription(movie){
-    mainPage.style.display="none";
-    descPage.style.display="block";
-    descImg.src = movie.image;
-    descTitle.innerText = movie.title;
-    descText.innerText = movie.description;
-    descVideo.src = movie.trailer;
-    descVideo.play();
-    downloadBtn.onclick = ()=> window.open(movie.download,"_blank");
-    fullscreenBtn.onclick = ()=> descVideo.requestFullscreen();
+    mainPage.style.display = "none";
+    descPage.style.display = "block";
+
+    document.getElementById("descImg").src = movie.image;
+    document.getElementById("descTitle").innerText = movie.title;
+    document.getElementById("descText").innerText = movie.description;
+
+    const video = document.getElementById("descVideo");
+    video.src = movie.trailer;
+    video.load(); // Important!
+    video.play().catch(e => {
+        // Autoplay may be blocked; user must click play
+        console.log("Autoplay not allowed. User interaction required.");
+    });
+
+    document.getElementById("downloadBtn").onclick = () => {
+        window.open(movie.download, "_blank");
+    };
+
+    document.getElementById("fullscreenBtn").onclick = () => {
+        if (video.requestFullscreen) video.requestFullscreen();
+        else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+        else if (video.msRequestFullscreen) video.msRequestFullscreen();
+    };
 }
 
-backBtn.onclick = ()=>{
-    descVideo.pause();
-    descPage.style.display="none";
-    mainPage.style.display="block";
+document.getElementById("backBtn").onclick = () => {
+    const video = document.getElementById("descVideo");
+    video.pause();
+    video.currentTime = 0;
+    descPage.style.display = "none";
+    mainPage.style.display = "block";
 };
 
 search.addEventListener("keyup", filterMovies);
-showMovies(movies);
 </script>
 
 </body>
