@@ -45,9 +45,11 @@ header input{
 }
 .container{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:20px;
-    padding:20px;}
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    padding:15px;}
+
+/* Mobile First */
 .movie{
     position:relative;
     background:#1e1e1e;
@@ -60,11 +62,12 @@ header input{
 .movie:hover {
     transform: scale(1.05);
 }
-/* ✅ NEW: Fixed aspect ratio container */
+
+/* Image container with aspect ratio */
 .movie .img-container {
     width: 100%;
     height: 0;
-    padding-top: 150%; /* 2:3 aspect ratio (standard movie poster) */
+    padding-top: 150%; /* 2:3 aspect ratio */
     position: relative;
     overflow: hidden;
     background: #000;
@@ -78,15 +81,16 @@ header input{
     object-fit: contain;
     object-position: center;
 }
+
 .movie h3{
     position:absolute;
     bottom:0;
     width:100%;
     margin:0;
-    padding:12px 0;
+    padding:8px 0;
     background:rgba(0,0,0,0.7);
     text-align:center;
-    font-size:18px;
+    font-size:14px;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
@@ -96,7 +100,8 @@ footer{
     background:#1f1f1f;
     padding:10px;
     text-align:center;
-    font-size:14px;}
+    font-size:14px;
+}
 
 /* Description Page */
 #descPage{
@@ -106,32 +111,32 @@ footer{
     background:#000;
 }
 #descPage img{
-    width:500px;
+    width:100%;
+    max-width:500px;
     height:auto;
-    max-width:90%;
     border-radius:8px;
     box-shadow: 0 0 20px rgba(255,0,0,0.3);
     object-fit: contain;
 }
 #descPage h1{
-    font-size:32px;
+    font-size:28px;
     margin:15px 0;
 }
 #descPage p{
     max-width:700px;
     margin:15px auto;
-    font-size:18px;
+    font-size:16px;
     line-height:1.5;
 }
 #descPage button{
-    padding:14px 24px;
-    margin:10px;
+    padding:12px 20px;
+    margin:8px;
     border:none;
     border-radius:5px;
     background:#e50914;
     color:#fff;
     cursor:pointer;
-    font-size:18px;
+    font-size:16px;
     font-weight:bold;
     transition: background 0.2s;
 }
@@ -140,12 +145,46 @@ footer{
 }
 #backBtn{
     background:#555;
-}
-#backBtn:hover{
+}#backBtn:hover{
     background:#444;
+}
+
+/* 📱 MOBILE RESPONSIVE ADJUSTMENTS */
+@media (min-width: 768px) {
+    .container {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap:20px;
+        padding:20px;
+    }
+    .movie .img-container {
+        padding-top: 150%; /* 2:3 */
+    }
+    .movie img {
+        object-fit: contain;
+    }
+    .movie h3 {
+        font-size:16px;
+        padding:10px 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap:25px;
+        padding:25px;
+    }
+    .movie .img-container {
+        padding-top: 150%; /* 2:3 */
+    }
+    .movie h3 {
+        font-size:18px;
+        padding:12px 0;
+    }
 }
 </style>
 </head>
+
 <body>
 
 <!-- MAIN PAGE -->
@@ -155,8 +194,7 @@ footer{
     <input type="text" id="search" placeholder="Search content...">
 </header>
 
-<div class="category-bar" id="categoryBar"></div>
-<div class="container" id="movieContainer"></div>
+<div class="category-bar" id="categoryBar"></div><div class="container" id="movieContainer"></div>
 
 <footer>All types of content – movies, web series, anime, leaks, etc.</footer>
 </div>
@@ -194,7 +232,8 @@ const categories = ["Action"];
 
 categories.forEach(cat => {
     const btn = document.createElement("button");
-    btn.innerText = cat;    btn.classList.add("active");
+    btn.innerText = cat;
+    btn.classList.add("active");
 
     btn.onclick = () => {
         const pass = prompt("Enter password for Action content:");
@@ -204,7 +243,6 @@ categories.forEach(cat => {
         }
         filterMovies();
     };
-
     categoryBar.appendChild(btn);
 });
 
@@ -226,10 +264,9 @@ function showMovies(list){
     list.forEach(movie => {
         const div = document.createElement("div");
         div.className = "movie";
-        // ✅ Wrap image in container for aspect ratio
         div.innerHTML = `
             <div class="img-container">
-                <img src="${movie.image}" onerror="this.src='https://via.placeholder.com/240x360?text=NOWHERE'">
+                <img src="${movie.image}" onerror="this.src='https://via.placeholder.com/200x300?text=NOWHERE'">
             </div>
             <h3>${movie.title}</h3>
         `;
@@ -243,7 +280,8 @@ function showDescription(movie){
     descPage.style.display = "block";
 
     document.getElementById("descImg").src = movie.image;
-    document.getElementById("descTitle").innerText = movie.title;    document.getElementById("descText").innerText = movie.description;
+    document.getElementById("descTitle").innerText = movie.title;
+    document.getElementById("descText").innerText = movie.description;
 
     document.getElementById("downloadBtn").onclick = () => {
         window.open(movie.download, "_blank");
@@ -254,7 +292,6 @@ document.getElementById("backBtn").onclick = () => {
     descPage.style.display = "none";
     mainPage.style.display = "block";
 };
-
 search.addEventListener("keyup", filterMovies);
 </script>
 
