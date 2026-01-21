@@ -92,17 +92,11 @@ footer{
     max-width:600px;
     margin:15px auto;
 }
-#descPage video{
-    width:90%;
-    max-width:600px;
-    margin:15px 0;
-    border-radius:8px;}
 #descPage button{
     padding:10px 18px;
     margin:8px;
     border:none;
-    border-radius:5px;
-    background:#e50914;
+    border-radius:5px;    background:#e50914;
     color:#fff;
     cursor:pointer;
 }
@@ -127,13 +121,11 @@ footer{
 <footer>All types of content – movies, web series, anime, leaks, etc.</footer>
 </div>
 
-<!-- DESCRIPTION PAGE -->
+<!-- DESCRIPTION PAGE (No trailer/video) -->
 <div id="descPage">
     <img id="descImg">
     <h1 id="descTitle"></h1>
     <p id="descText"></p>
-    <video id="descVideo" controls autoplay muted></video><br>
-    <button id="fullscreenBtn">Fullscreen</button>
     <button id="downloadBtn">Download</button>
     <button id="backBtn">Back</button>
 </div>
@@ -142,19 +134,18 @@ footer{
 // ================= CONTENT DATA =================
 const movies = [
     {
-        title: "Action Movie 1",
-        image: "https://drive.google.com/thumbnail?id=16lxU26CD8Qx5fvwgR3qVA_HZXv42rWor&sz=w1000",
-        trailer: "https://drive.google.com/uc?export=download&id=16lxU26CD8Qx5fvwgR3qVA_HZXv42rWor",
-        download: "https://drive.google.com/uc?export=download&id=16lxU26CD8Qx5fvwgR3qVA_HZXv42rWor",        category: "Action",
-        description: "Exclusive action-packed content including movies, web series, and more."
+        title: "NOWHERE",
+        image: "https://drive.google.com/thumbnail?id=1b3ml8CzgLbxqXoye0YQ3pZ50JPdSya6V&sz=w1000",
+        download: "https://lh3.googleusercontent.com/d/zHmxJctj9TCJV3Ug8",
+        category: "Action",
+        description: "A woman fights for survival while stranded at sea — a gripping Netflix thriller."
     }
 ];
 
 // ================= SCRIPT =================
 const mainPage = document.getElementById("mainPage");
 const descPage = document.getElementById("descPage");
-const container = document.getElementById("movieContainer");
-const search = document.getElementById("search");
+const container = document.getElementById("movieContainer");const search = document.getElementById("search");
 const categoryBar = document.getElementById("categoryBar");
 
 let currentCategory = "Action";
@@ -194,7 +185,8 @@ function showMovies(list){
     }
     list.forEach(movie => {
         const div = document.createElement("div");
-        div.className = "movie";        div.innerHTML = `<img src="${movie.image}" onerror="this.src='https://via.placeholder.com/180x260?text=Video'"><h3>${movie.title}</h3>`;
+        div.className = "movie";
+        div.innerHTML = `<img src="${movie.image}" onerror="this.src='https://via.placeholder.com/180x260?text=NOWHERE'"><h3>${movie.title}</h3>`;
         div.onclick = () => showDescription(movie);
         container.appendChild(div);
     });
@@ -203,34 +195,16 @@ function showMovies(list){
 function showDescription(movie){
     mainPage.style.display = "none";
     descPage.style.display = "block";
-
     document.getElementById("descImg").src = movie.image;
     document.getElementById("descTitle").innerText = movie.title;
     document.getElementById("descText").innerText = movie.description;
 
-    const video = document.getElementById("descVideo");
-    video.src = movie.trailer;
-    video.load(); // Important!
-    video.play().catch(e => {
-        // Autoplay may be blocked; user must click play
-        console.log("Autoplay not allowed. User interaction required.");
-    });
-
     document.getElementById("downloadBtn").onclick = () => {
         window.open(movie.download, "_blank");
-    };
-
-    document.getElementById("fullscreenBtn").onclick = () => {
-        if (video.requestFullscreen) video.requestFullscreen();
-        else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
-        else if (video.msRequestFullscreen) video.msRequestFullscreen();
     };
 }
 
 document.getElementById("backBtn").onclick = () => {
-    const video = document.getElementById("descVideo");
-    video.pause();
-    video.currentTime = 0;
     descPage.style.display = "none";
     mainPage.style.display = "block";
 };
