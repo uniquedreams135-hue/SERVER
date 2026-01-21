@@ -60,10 +60,22 @@ header input{
 .movie:hover {
     transform: scale(1.05);
 }
+/* ✅ NEW: Fixed aspect ratio container */
+.movie .img-container {
+    width: 100%;
+    height: 0;
+    padding-top: 150%; /* 2:3 aspect ratio (standard movie poster) */
+    position: relative;
+    overflow: hidden;
+    background: #000;
+}
 .movie img{
-    width:100%;
-    height:400px;
-    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     object-position: center;
 }
 .movie h3{
@@ -84,8 +96,7 @@ footer{
     background:#1f1f1f;
     padding:10px;
     text-align:center;
-    font-size:14px;
-}
+    font-size:14px;}
 
 /* Description Page */
 #descPage{
@@ -96,7 +107,8 @@ footer{
 }
 #descPage img{
     width:500px;
-    height:auto;    max-width:90%;
+    height:auto;
+    max-width:90%;
     border-radius:8px;
     box-shadow: 0 0 20px rgba(255,0,0,0.3);
     object-fit: contain;
@@ -134,7 +146,6 @@ footer{
 }
 </style>
 </head>
-
 <body>
 
 <!-- MAIN PAGE -->
@@ -146,6 +157,7 @@ footer{
 
 <div class="category-bar" id="categoryBar"></div>
 <div class="container" id="movieContainer"></div>
+
 <footer>All types of content – movies, web series, anime, leaks, etc.</footer>
 </div>
 
@@ -164,7 +176,6 @@ const movies = [
     {
         title: "NOWHERE",
         image: "https://drive.google.com/thumbnail?id=1b3ml8CzgLbxqXoye0YQ3pZ50JPdSya6V&sz=w1000",
-        // ✅ YOUR EXACT LINK ADDED HERE
         download: "https://uniquedreams135.blogspot.com/2026/01/description.html?m=1",
         category: "Action",
         description: "A woman fights for survival while stranded at sea — a gripping Netflix thriller."
@@ -183,8 +194,7 @@ const categories = ["Action"];
 
 categories.forEach(cat => {
     const btn = document.createElement("button");
-    btn.innerText = cat;
-    btn.classList.add("active");
+    btn.innerText = cat;    btn.classList.add("active");
 
     btn.onclick = () => {
         const pass = prompt("Enter password for Action content:");
@@ -194,6 +204,7 @@ categories.forEach(cat => {
         }
         filterMovies();
     };
+
     categoryBar.appendChild(btn);
 });
 
@@ -215,7 +226,13 @@ function showMovies(list){
     list.forEach(movie => {
         const div = document.createElement("div");
         div.className = "movie";
-        div.innerHTML = `<img src="${movie.image}" onerror="this.src='https://via.placeholder.com/240x400?text=NOWHERE'"><h3>${movie.title}</h3>`;
+        // ✅ Wrap image in container for aspect ratio
+        div.innerHTML = `
+            <div class="img-container">
+                <img src="${movie.image}" onerror="this.src='https://via.placeholder.com/240x360?text=NOWHERE'">
+            </div>
+            <h3>${movie.title}</h3>
+        `;
         div.onclick = () => showDescription(movie);
         container.appendChild(div);
     });
@@ -226,10 +243,8 @@ function showDescription(movie){
     descPage.style.display = "block";
 
     document.getElementById("descImg").src = movie.image;
-    document.getElementById("descTitle").innerText = movie.title;
-    document.getElementById("descText").innerText = movie.description;
+    document.getElementById("descTitle").innerText = movie.title;    document.getElementById("descText").innerText = movie.description;
 
-    // ✅ Opens your exact blog post in a new tab
     document.getElementById("downloadBtn").onclick = () => {
         window.open(movie.download, "_blank");
     };
@@ -243,4 +258,5 @@ document.getElementById("backBtn").onclick = () => {
 search.addEventListener("keyup", filterMovies);
 </script>
 
-</body></html>
+</body>
+</html>
