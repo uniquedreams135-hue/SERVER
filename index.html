@@ -112,11 +112,12 @@ footer{
 }
 #descPage img{
     width:100%;
-    max-width:500px;
+    max-width:300px; /* ✅ Smaller than before */
     height:auto;
     border-radius:8px;
-    box-shadow: 0 0 20px rgba(255,0,0,0.3);
+    box-shadow: 0 0 15px rgba(255,0,0,0.2);
     object-fit: contain;
+    margin: 0 auto; /* Center image */
 }
 #descPage h1{
     font-size:28px;
@@ -144,8 +145,8 @@ footer{
     background:#cc0000;
 }
 #backBtn{
-    background:#555;
-}#backBtn:hover{
+    background:#555;}
+#backBtn:hover{
     background:#444;
 }
 
@@ -193,8 +194,8 @@ footer{
 
 <div class="category-bar" id="categoryBar"></div>
 <div class="container" id="movieContainer"></div>
-
-<footer>All types of content – movies, web series, anime, leaks, etc.</footer></div>
+<footer>All types of content – movies, web series, anime, leaks, etc.</footer>
+</div>
 
 <!-- DESCRIPTION PAGE -->
 <div id="descPage">
