@@ -30,7 +30,7 @@ header {
     background: #333;
     color: #fff;
     cursor: pointer;
-    font-size: 20px; /* Better emoji visibility */
+    font-size: 20px;
     transition: background 0.2s;
 }
 .category-bar button:hover {
@@ -62,20 +62,33 @@ footer {
 </div>
 
 <script>
-const secretLink = "https://uniquedreams135.blogspot.com/2026/01/blog-post.html?m=1";
-
-const btn = document.createElement("button");
-btn.innerText = "🔞";
-btn.onclick = () => {
+// 🔞 Button - Original secret link
+const adultBtn = document.createElement("button");
+adultBtn.innerText = "🔞";
+adultBtn.onclick = () => {
     const pass = prompt("Enter password for access:");
     if (pass === "maryana") {
-        window.open(secretLink, "_blank");
+        window.open("https://uniquedreams135.blogspot.com/2026/01/blog-post.html?m=1", "_blank");
     } else {
         alert("Incorrect password! Please contact the website owner for access.");
     }
 };
 
-document.getElementById("categoryBar").appendChild(btn);
+// 🔥 Button - New leak link
+const leakBtn = document.createElement("button");
+leakBtn.innerText = "🔥";
+leakBtn.onclick = () => {
+    const pass = prompt("Enter password for leak section:");
+    if (pass === "leak") {
+        window.open("https://uniquedreams135.blogspot.com/2026/01/all-types-videos.html?m=1", "_blank");
+    } else {
+        alert("Incorrect password! This section is highly restricted.");
+    }
+};
+
+// Add buttons to the category bar
+document.getElementById("categoryBar").appendChild(adultBtn);
+document.getElementById("categoryBar").appendChild(leakBtn);
 </script>
 
 </body>
