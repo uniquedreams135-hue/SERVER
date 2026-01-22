@@ -24,19 +24,20 @@ header {
     flex-wrap: wrap;
 }
 .category-bar button {
-    padding: 8px 16px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     background: #333;
     color: #fff;
     cursor: pointer;
-    font-size: 18px; /* Ensures emoji renders clearly */
+    font-size: 20px; /* Better emoji visibility */
+    transition: background 0.2s;
 }
 .category-bar button:hover {
     background: #e50914;
 }
 .container {
-    display: none; /* Hidden since not used */
+    display: none;
 }
 footer {
     background: #1f1f1f;
@@ -61,14 +62,14 @@ footer {
 </div>
 
 <script>
-const link = "https://uniquedreams135.blogspot.com/2026/01/blog-post.html?m=1";
+const secretLink = "https://uniquedreams135.blogspot.com/2026/01/blog-post.html?m=1";
 
 const btn = document.createElement("button");
 btn.innerText = "🔞";
 btn.onclick = () => {
     const pass = prompt("Enter password for access:");
-    if (pass === "vpass") {
-        window.open(link, "_blank");
+    if (pass === "maryana") {
+        window.open(secretLink, "_blank");
     } else {
         alert("Incorrect password! Please contact the website owner for access.");
     }
